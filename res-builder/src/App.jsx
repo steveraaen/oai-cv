@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-
+import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
-import helperFuncs from './helpers/apiRoutes'
+// import helperFuncs from './helpers/apiRoutes'
 import RunButton from './components/RunButton';
 import Aggression from './components/Aggression';
 import Resume from './components/Resume';
@@ -18,19 +18,31 @@ import Uploader from './components/Uploader';
 import Selectors from './components/Selectors';
 
 function App() {
- 
-
   const [resume, setResume] = useState('')
   const [desc, setDesc] = useState('')
   const [tone, setTone] = useState('Normal')
   const [focus, setFocus] = useState('')
   const [aggression, setAggression] = useState('Normal')
-
+  const [resumeSkills, setResumeSkills] = useState([])
   const [prompt, setPrompt] = useState({'resume': resume,
                                         'desc': desc,
                                         'tone': tone,
                                         'focus': focus,
                                         'aggression': aggression})
+
+async function getResumeSkills () {
+    try {
+      const skillsPromise = axios.post('/api/blurb', {params:[{resume}]})
+      const skills = await skillsPromise
+      setResumeSkills(skills.data[0].message)
+      }
+         catch (e) {
+        console.error(e);
+    };
+
+}
+
+
   const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -41,18 +53,19 @@ function App() {
       return (
     <>
     <Uploader resume= {resume} setResume= {setResume} prompt= {prompt} setPrompt= {setPrompt}  />
-
     <Grid container spacing={2}>
       <Grid xs={10} sx= {{flex: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>
         <Item>
           <Selectors prompt= {prompt} setPrompt= {setPrompt}  />
         </Item>
+        <Item>
+          <RunButton getResumeSkills= {getResumeSkills} resumeSkills= {resumeSkills} prompt= {prompt} setPrompt= {setPrompt} resume={resume} />
+        </Item>
       </Grid>
       <Grid xs={6}>
         <Item> <Resume resume={resume} /></Item>
       </Grid>
-    </Grid>
-   
+    </Grid>   
     </>
   )
 }

@@ -2,31 +2,33 @@ import axios from 'axios'
 
 const helperFuncs = {
     'getBlurb': getBlurb,
-    'postPrompt': postPrompt
+    // 'postPrompt': postPrompt
 }
-
-
-async function postPrompt(fullPrompt) {
-	await axios.post('/user', {params: {fullPrompt}})
-	  .then(function (response) {
-	    console.log(response);
-	  })
-	  .catch(function (error) {
-	    console.log(error);
-	  });
-}
-
-
-
 
 async function getBlurb(docs) {
-    await axios.get('/api/blurb', {params:{docs}})
-        .then(res => {
-            return res.data
-        })
-        .catch(err => {
-            console.log(err);
-            return null;
-        });
+
+
+  try {
+  const resumePromise = axios.post('/api/blurb', {params:[{docs}]})
+  var resume = await resumePromise
+  console.log(resume)
+  }
+         catch (e) {
+        console.error(e);
+    };
+
+// console.log(docs)
+//     await axios.post('/api/blurb', {params:{docs}})
+
+//         .then(res => {
+//             console.log(res.data[0].message.content)
+//             return res.data
+//         })
+//         .catch(err => {
+//             console.log(err);
+//             return null;
+//         });
 }
+
+
 export default helperFuncs

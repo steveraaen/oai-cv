@@ -1,4 +1,11 @@
 
+
+
+const ingestCV = {
+	'summarize' : """"""
+}
+
+
 const fullPrompt = {}
 
 async function main() {

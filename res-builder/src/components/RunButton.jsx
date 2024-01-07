@@ -1,14 +1,17 @@
 import React, { useRef, useState} from 'react';
 import {Button } from '@mui/material';
-import helperFuncs from '../helpers/apiRoutes';
+
 
 function RunButton(props) {
+	    	console.log(props)
     function  handleRunClick(ev) {
+
+    	ev.preventDefault()
         console.log(props)
-        helperFuncs.getBlurb(props)
+        props.getResumeSkills()
     }
     return(
-        <Button onClick={(e) => handleRunClick(e)}>Write Cover Letter</Button>
+        <Button onClick={(e) => handleRunClick(e)}>Process Resume</Button>
     )
 }
 export default RunButton
