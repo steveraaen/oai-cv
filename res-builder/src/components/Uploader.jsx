@@ -6,7 +6,6 @@ import helperFuncs from '../helpers/apiRoutes';
 
 console.log(helperFuncs)
 function FileUpload(props) {
-console.log(props)
   const showFile = async (e) => {
     e.preventDefault();
     const reader = new FileReader();

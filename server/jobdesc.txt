@@ -1,0 +1,24 @@
+As a Senior Product Manager of Office Automation, Gen AI Workstreams, you will play a vital role in developing our latest game-changing product – Chart Creator. This product will serve as a pivotal element within a banker’s operational framework, enabling them to generate pitch-ready charts via natural language prompts. Our goal is to streamline the pitchbook creation process and provide a comprehensive end-to-end workflow that effortlessly configures charts, slides, and tables in an automated fashion. With the integration of Generative AI technology, bankers will have access to solutions that aim to maximize productivity levels, empowering them to dedicate more time to high-value activities and less time on highly repetitive tasks.
+
+Responsibilities:
+
+Gain a foundational understanding of banker workflows, particularly the chart creation process within pitchbooks, to inform and guide product development.
+Develop an end-to-end product strategy to guide the overall direction of the Chart Creator solution and integration points into the larger FactSet AI blueprint.
+Work with cross-functional teams to define the short, medium, and long-term roadmap that spans the entire chart generation process.
+Oversee an iterative process to ensure that the final product aligns with consumer requirements and make necessary refinements based on feedback.
+Assess the competitive landscape to position the product and determine key features.
+Engage with clients and sales representatives to gather feedback and refine the product to meet the precise requirements of advisors.
+Foster alignment and synergy with Generative AI teams, Engineering, QA, Application Design, Scrum, Sales, and Consulting to drive development and innovation.
+Lead the creation of marketing, sales, and training materials to support the successful launch and adoption of the product.
+Requirements:
+
+BA/BS in Engineering, Economics, Math, Finance, Business Management, or another closely related field.
+Minimum of 7 years of product management experience, preferably at a finance or enterprise technology company.
+Explicit experience owning a product with a proven track record of successfully managing and delivering complex projects.
+Strong user research capabilities.
+Excellent technical troubleshooting skills to understand and resolve any technical issues that may arise, as well as the ability to provide support and testing as required to ensure quality and reliability.
+Interest in learning new technologies and how multiple systems work together to drive innovation.
+Strategic thinker with the ability to see the big picture while executing tactical day-to-day tasks and projects.
+Experience with Agile methodologies to ensure efficient and effective product development.
+Ability to initiate and drive projects to completion with autonomy.
+Excellent interpersonal and communication skills to build relationships with teams and collaborate effectively across regions, as well as the ability to communicate with technical and non-technical partners across all levels of the organization.

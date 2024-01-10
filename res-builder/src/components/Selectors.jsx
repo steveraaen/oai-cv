@@ -4,7 +4,6 @@ import {FormControl, FormHelperText, Input, InputLabel, MenuItem, Select} from '
 function Selectors(props) {
 
     const changeSelect = (e) => {
-        console.log(e.target)
         if(e.target.name === 'agg') {
           props.setPrompt({
              ...props.prompt,
@@ -15,9 +14,13 @@ function Selectors(props) {
              ...props.prompt,
             tone: e.target.value
             });           
-        }
+        } else if (e.target.name === 'focus') {
+           props.setPrompt({
+             ...props.prompt,
+            focus: e.target.value
+            }); 
     }
-
+}
     return(<>
         <FormControl sx= {{width: '20vw'}}>
             <InputLabel id="select-agg-label">Aggression</InputLabel>
@@ -35,7 +38,7 @@ function Selectors(props) {
               <MenuItem value={'Aggressive'}>Agressive</MenuItem>
             </Select>
         </FormControl>
-        <FormControl sx= {{width: '20vw', marginLeft: '30px'}}>
+        <FormControl sx= {{width: '20vw', marginLeft: '20px'}}>
             <InputLabel id="select-tone-label">Tone</InputLabel>
             <Select
             name= 'tone'
@@ -49,6 +52,23 @@ function Selectors(props) {
               <MenuItem value={'Informal'}>Informal</MenuItem>
               <MenuItem value={'Normal'}>Normal</MenuItem>
               <MenuItem value={'Formal'}>Formal</MenuItem>
+            </Select>
+        </FormControl>
+        <FormControl sx= {{width: '20vw', marginLeft: '20px'}}>
+            <InputLabel id="select-focus-label">Focus</InputLabel>
+            <Select
+            name= 'focus'
+              labelId="select-focus-label"
+              id="focus-select"
+              defaultValue={'Product Management'}
+              value= {props.prompt.focus || ''}
+              label= {"Focus"}
+              onChange={changeSelect}
+            >
+              <MenuItem value={'Product Management'}>Product Management</MenuItem>
+              <MenuItem value={'Software Development'}>Software Development</MenuItem>
+              <MenuItem value={'Financial'}>Financial Markets</MenuItem>
+              <MenuItem value={'Sales'}>Sales</MenuItem>
             </Select>
         </FormControl>
         </>
