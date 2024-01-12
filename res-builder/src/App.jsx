@@ -11,20 +11,17 @@ import Resume from './components/Resume';
 import Uploader from './components/Uploader';
 import Description from './components/Description';
 import Selectors from './components/Selectors';
-import inputs from './helpers/exampleStrings.js'
 
 function App() {
 
-console.log(localStorage);
-
   const [resume, setResume] = useState('')
-  const [desc, setDesc] = useState('')
+  const [desc, setDesc] = useState()
   const [tone, setTone] = useState('Normal')
   const [focus, setFocus] = useState('Product')
   const [aggression, setAggression] = useState('Normal')
   const [resumeSkills, setResumeSkills] = useState([])
   const [prompt, setPrompt] = useState({'resume': '',
-                                        'desc': '',
+                                        'desc': desc,
                                         'tone': 'Normal',
                                         'focus': 'Product Management',
                                         'aggression': 'Normal'})
@@ -37,7 +34,10 @@ async function getResumeSkills () {
          catch (e) {
         console.error(e);
     };
-
+}
+function processDesc(e){
+  console.log(e)
+  setDesc(e)
 }
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,14 +55,17 @@ const Item = styled(Card)(({ theme }) => ({
           <Selectors prompt= {prompt} setPrompt= {setPrompt}  />
         </Item>
         <Item>
-          <RunButton getResumeSkills= {getResumeSkills} resumeSkills= {resumeSkills} prompt= {prompt} setPrompt= {setPrompt} resume={resume} />
+          
         </Item>
       </Grid>
       <Grid xs={6}>
-        <Item> <Resume resume={resume} /></Item>
+        <Item> <Resume resume={resume} />
+        <RunButton getResumeSkills= {getResumeSkills} resumeSkills= {resumeSkills} prompt= {prompt} setPrompt= {setPrompt} resume={resume} />
+        </Item>
+        
       </Grid>
       <Grid xs={6}>
-        <Item> <Description resumeSkills={resumeSkills} /></Item>
+        <Item> <Description processDesc ={processDesc} desc={desc} setDesc={processDesc} /></Item>
       </Grid>
     </Grid>   
     </>

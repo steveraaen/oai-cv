@@ -43,6 +43,40 @@ const inputs = {
         • Javascript - HTML - CSS - React - React Native - SQL - MongoDB - Regex - Bash - Git -
         Node.js - Express - NPM - Puppeteer - Python - Pandas - Numpy - Jupyter.
         EDUCATION
-        UNIVERSITY OF NORTH CAROLINA, GREENSBORO, NC 1980 - 1981 RUTGERS UNIVERSITY (CONTINUING EDUCATION), JERSEY CITY, NJ 2016 - 2017
-`}
-export default inputs
+        UNIVERSITY OF NORTH CAROLINA, GREENSBORO, NC 1980 - 1981 RUTGERS UNIVERSITY (CONTINUING EDUCATION), JERSEY CITY, NJ 2016 - 2017`,
+    "meta": `Meta Product Managers work with cross-functional teams of engineers, designers, data scientists and researchers to build products. We are looking for extremely entrepreneurial Product Managers who value moving quickly.
+
+    Product Manager Responsibilities:
+    
+    Is the primary driver for identifying significant opportunities, and driving product vision, strategies and roadmaps in the context of broader organizational strategies and goals.
+    Understand Meta’s strategic and competitive position and deliver products that are aligned with our mission and recognized best in the industry.
+    Maximize efficiency in a constantly evolving environment where the process is fluid and creative solutions are the norm.
+    Incorporate data, research, and market analysis to inform product strategies and roadmaps.
+    Plan, initiate, and manage information technology projects for web-based products and platforms.
+    Lead the ideation, technical development, and launch of innovative tools, platforms, and/or products.
+    Drive product development with teams of world-class engineers and designers, while maintaining team health.
+    Work closely with cross-functional teams to drive product vision, define product requirements, coordinate resources from other groups (design, legal, etc.), and guide the team through key milestones.
+    Integrate usability studies, research, and market analysis into product requirements to improve engineer productivity and enhance user satisfaction.
+    Define and analyze metrics that inform the success of products. Identify and track key performance metrics.
+    
+    Minimum Qualifications:
+    
+    8+ years product management or related industry experience
+    Requires a Bachelor's degree (or foreign degree equivalent) in Computer Science, Engineering, Information Systems, Analytics, Mathematics, Physics, Applied Sciences, or a related field and 2+ years of experience in the following:
+    Experience in product management or product design
+    Experience working in a technical environment with a broad, cross functional team to drive product vision, define product requirements, coordinate resources from other groups (design, legal, etc.), and guide the team through key milestones
+    Experience delivering technical presentations
+    Experience in analyzing complex, large-scale data sets and making decisions based on data
+    Experience in gathering requirements across diverse areas and users, and converting and developing them into a product solution
+    Experience in technical experience with analytical tools, methodologies, and design
+    Displaying leadership, organizational and execution skills
+    Proven communication skills
+    
+    Preferred Qualifications:
+    
+    Experience defining vision and strategy for a product.
+    Experience going through a full product lifecycle, integrating customer feedback into product requirements, driving prioritization and pre/post-launch execution.
+    Experience recruiting and leading a cross-functional team of world-class individuals.
+    Enthusiastic and resilient in a constantly evolving environment where the process is fluid and creative solutions are the norm.
+    `}
+module.exports = inputs
