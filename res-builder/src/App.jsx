@@ -28,7 +28,9 @@ function App() {
 async function getResumeSkills () {
     try {
       const skillsPromise = axios.post('/api/blurb', {params:[{resume}]})
-      const skills = await skillsPromise
+      // const skills = await skillsPromise
+
+      console.log(await skillsPromise)
       setResumeSkills(skills.data[0].message)
       }
          catch (e) {

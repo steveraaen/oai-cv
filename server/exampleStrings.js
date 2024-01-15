@@ -78,5 +78,35 @@ const inputs = {
     Experience going through a full product lifecycle, integrating customer feedback into product requirements, driving prioritization and pre/post-launch execution.
     Experience recruiting and leading a cross-functional team of world-class individuals.
     Enthusiastic and resilient in a constantly evolving environment where the process is fluid and creative solutions are the norm.
-    `}
+    `,
+"yale": `
+Position Focus:
+
+The Software Engineers will work with world renowned researchers in a new academic unit,Biomedical Informatics and Data Science at Yale University that advances work at the intersection of health sciences and information technology and develops new approaches to organize and analyze biomedical and healthcare data to promote health for all. Our tripartite mission includes research, education, and services. Our collaborative and transdisciplinary environment integrates informatics and data science experts with biomedical scientists and clinicians. We develop innovative methods and systems to improve patient outcomes, train the next generation of biomedical informatics and data science experts, and help researchers and clinicians make maximal use of data.
+
+Essential Duties
+
+1. Develops programs or systems of small to moderate size and complexity. Modifies existing systems at all levels of difficulty. 2. Provides informational input into decisions concerning the development and delivery of applications, programs and systems. Defines and analyzes requirements to meet the expectations of stakeholders and intended end user needs, scheduled timeline, and budgetary targets. 3. Analyzes, defines and designs new systems and applications. Writes code in support of business solutions. 4. Responsible for the creation, definition, communication, and management of project plans which includes architectural design, technology selection and methodologies to apply. 5. Troubleshoots problems and provide ongoing maintenance and support for applications and systems. 6. Prepares documentation, user manuals and develops formal proposals for new systems and modifications to existing systems. Mentors technical staff and provide training for end users. 7. Contributes in the development of policies or modifications to exiting policies. 8. Applies and keeps current with existing and emerging technologies and methodologies. Provides ongoing input to the establishment of programming standards, procedures, and methodologies. 9. May perform other duties as assigned.
+
+Required Education and Experience
+
+Bachelor's Degree in a related field and two years of related work experience or an equivalent combination of education and experience.
+
+Required Skill/Ability 1:
+
+Familiar with at least one programming language such as python, java etc.
+
+Required Skill/Ability 2:
+
+Demonstrated ability with web, desktop or other types of application development.
+
+Required Skill/Ability 3:
+
+Knowledge/experience with natural language processing, machine learning, deep learning algorithms.
+
+Required Skill/Ability 4:
+
+Demonstrated ability with cloud computing environment.
+
+`}
 module.exports = inputs

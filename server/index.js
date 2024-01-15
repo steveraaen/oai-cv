@@ -29,6 +29,7 @@ const covLetAsstInstrux = 'I am applying for a job and need a cover letter.  I w
 
 
 async function getBlurb(r) {
+  
 const resStats = await openai.chat.completions.create({
   model: "gpt-3.5-turbo-1106",
   response_format: { type: "json_object" },
@@ -41,8 +42,9 @@ const resStats = await openai.chat.completions.create({
 	  max_tokens: 1000,
 	  temperature: 0
 	});
-  console.log(resStats.data.choices)
-	return resStats.data.choices
+  // const stats = await resStats.data
+  console.log(resStats.choices[0].message)
+	// return stats
 }
 app.post('/api/blurb', async(req, res) => {
     res.send(await getBlurb(req.body.params[0].resume))
