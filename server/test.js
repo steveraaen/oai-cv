@@ -1,6 +1,6 @@
 const dotenv = require('dotenv')
 const OpenAI = require("openai")
-const inputs = require('./exampleStrings')
+// const inputs = require('./exampleStrings')
 const MessageContentText = require('openai/resources/beta/threads/messages/messages')
 dotenv.config()
 const openai = new OpenAI({
