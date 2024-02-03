@@ -11,15 +11,19 @@ import Resume from './components/Resume';
 import Uploader from './components/Uploader';
 import Description from './components/Description';
 import Selectors from './components/Selectors';
+import CoverLetter from './components/CoverLetter';
+import SaveDocx from './components/SaveDocx';
+import helperFuncs from './helpers/apiRoutes';
+import inputs from './helpers/exampleStrings';
 
 function App() {
-
-  const [resume, setResume] = useState('')
-  const [desc, setDesc] = useState()
+  const [resume, setResume] = useState(inputs.resume)
+  const [desc, setDesc] = useState(inputs.meta)
   const [tone, setTone] = useState('Normal')
   const [focus, setFocus] = useState('Product')
   const [aggression, setAggression] = useState('Normal')
   const [resumeSkills, setResumeSkills] = useState([])
+  const [coverLetter, setCoverLetter] = useState([])
   const [prompt, setPrompt] = useState({'resume': '',
                                         'desc': desc,
                                         'tone': 'Normal',
@@ -41,6 +45,21 @@ function processDesc(e){
   console.log(e)
   setDesc(e)
 }
+async function writeCoverLetter(obj) {
+  try {
+    const letterPromise = axios.post('/api/cvWriter', {params:[{obj}]})
+    const letter = await letterPromise
+    setCoverLetter(letter.data.value)
+    }
+  catch (e) {
+    console.error(e);
+    }
+}
+async function writeLetter(o) {
+  console.log(o)
+  await writeCoverLetter({'resume': o.resume, 'description': o.desc})
+
+}
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -57,17 +76,18 @@ const Item = styled(Card)(({ theme }) => ({
           <Selectors prompt= {prompt} setPrompt= {setPrompt}  />
         </Item>
         <Item>
-          
+          <CoverLetter coverLetter= {coverLetter} />
         </Item>
       </Grid>
       <Grid xs={6}>
-        <Item> <Resume resume={resume} />
-        <RunButton getResumeSkills= {getResumeSkills} resumeSkills= {resumeSkills} prompt= {prompt} setPrompt= {setPrompt} resume={resume} />
+        <Item> 
+        <RunButton writeLetter= {writeLetter} desc={desc} resume={resume}/>
         </Item>
         
       </Grid>
       <Grid xs={6}>
         <Item> <Description processDesc ={processDesc} desc={desc} setDesc={processDesc} /></Item>
+        <Item> <SaveDocx coverLetter= {coverLetter} desc={desc} resume={resume}/></Item>
       </Grid>
     </Grid>   
     </>

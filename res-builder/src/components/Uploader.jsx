@@ -4,13 +4,13 @@ import Docxtemplater from "docxtemplater";
 import PizZip from 'pizzip'
 import helperFuncs from '../helpers/apiRoutes';
 
-console.log(helperFuncs)
 function FileUpload(props) {
   const showFile = async (e) => {
     e.preventDefault();
     const reader = new FileReader();
     reader.onload = async (e) => {
       const content = e.target.result;
+      console.log(typeof content)
       const doc = new Docxtemplater(new PizZip(content));
       const text = doc.getFullText();
       props.setResume(text)
