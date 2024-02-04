@@ -30,27 +30,48 @@ const openai = new OpenAI({
 // }
 // // 
 // async function getBlurb(r) {}
+app.post('/api/skills', async(req, res) => {
+  // console.log(req.body.params[0].doc.desc)
+  const doc = req.body.params[0].doc.desc
+  console.log(doc)
+  const skillsThread = await openai.beta.threads.create({})
+  const message = await openai.beta.threads.messages.create(skillsThread.id, {
+    role: 'user',
+    content:
+      `${doc} is either a job description or a resume. Identify each of the professional skills referenced in the string. 
+      Extract skills in the text that represent the following categories: ${'product management'} skills, ${'technical skills'}, and ${'sales'} skills.
+      Describe each skill in three words or less. Return a Javascript object. The objects' keys will be the categories and the values will be a Javascript arrray of the skills`,
+      
+  })
+  const run = await openai.beta.threads.runs.create(skillsThread.id, {
+    assistant_id: 'asst_mk6S5OHu9bcYTfqKIATAiIeZ',
+  })
+  console.log('Run has been created: ', run)
+  const checkRun = async () => {
+    return new Promise((resolve, reject) => {
+      const interval = setInterval(async () => {
+        const retrieveRun = await openai.beta.threads.runs.retrieve(
+          skillsThread.id,
+          run.id
+        )
+        console.log('Run status: ', retrieveRun.status)
+        if (retrieveRun.status === 'completed') {
+          console.log('Run completed: ')
+          clearInterval(interval)
+          resolve(retrieveRun)
+        }
+      }, 3000)
+    })
+  }
+  await checkRun()
+    const messages = await openai.beta.threads.messages.list(skillsThread.id)
+    console.log(messages.data[0].content[0].text)
 
+  // for(let i=0; i < messages.data.length; i++) {
+  //   console.log(messages.data[i].content)
+  // }
 
-
-app.post('/api/blurb', async(req, res) => {
-  console.log(req.body.params[0].doc)
-//   const resumeSkills = await openai.chat.completions.create({
-//   model: "gpt-3.5-turbo-1106",
-//   response_format: { type: "json_object" },
-//   messages: [
-//   {role: "system",content: "You are a helpful assistant designed to output JSON."},
-//   {role: 'user', content: `Read the following text """ ${r}."""`},
-//   {role: 'user', content: `Extract words in the text that represent product management skills, technical skills, and sales skills.`},
-//   {role: 'user', content: `Format the list as a javascript array.`}
-// ],
-//     max_tokens: 1000,
-//     temperature: 0
-//   });
-//   const skillsList = await resumeSkills.data
-//   return skillsList
-
-//     res.send(await getBlurb(req.body.params[0].resume))
+    res.json(messages.data[0].content[0].text)
 })
 
 
@@ -115,8 +136,24 @@ app.listen(port, () => {
 
 // main();
 
+// -----Original completion skills promptt
+//   const resumeSkills = await openai.chat.completions.create({
+//   model: "gpt-3.5-turbo-1106",
+//   response_format: { type: "json_object" },
+//   messages: [
+//   {role: "system",content: "You are a helpful assistant designed to output JSON."},
+//   {role: 'user', content: `Read the following text """ ${req.body.params[0].doc}."""`},
+//   {role: 'user', content: `Extract words in the text that represent product management skills, technical skills, and sales skills.`},
+//   {role: 'user', content: `Format the list as a javascript array.`}
+// ],
+//     max_tokens: 1000,
+//     temperature: 0
+//   });
+//   const skillsList = await resumeSkills.data
+//   console.log(skillsList)
+//   // return skillsList
 
-
+//     res.send(skillsList)
 
 
 
