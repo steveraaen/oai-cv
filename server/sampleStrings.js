@@ -147,4 +147,4 @@ Engage with customers to understand their strategies, end-to-end business proces
 Partner closely with Engineering, UX, and other internal Google teams to drive product and delivery success. Analyze landscape and industry trends to advance our products and drive innovation.
 Foster and facilitate timely decision-making across a broad network of stakeholders, delivery partners, and operational teams. Attract, develop, and retain an excellent team of product managers.
 `}
-export default inputs
+module.exports inputs

@@ -35,6 +35,7 @@ app.post('/api/skills', async(req, res) => {
   const doc = req.body.params[0].doc.desc
   console.log(doc)
   const skillsThread = await openai.beta.threads.create({})
+  console.log(skillsThread.id)
   const message = await openai.beta.threads.messages.create(skillsThread.id, {
     role: 'user',
     content:
@@ -65,13 +66,17 @@ app.post('/api/skills', async(req, res) => {
   }
   await checkRun()
     const messages = await openai.beta.threads.messages.list(skillsThread.id)
-    console.log(messages.data[0].content[0].text)
+
 
   // for(let i=0; i < messages.data.length; i++) {
   //   console.log(messages.data[i].content)
   // }
-
-    res.json(messages.data[0].content[0].text)
+    const skillsObj = {
+      'threadID': skillsThread.id,
+      'skills': messages.data[0].content[0].text
+    }
+    console.log(skillsObj)
+    res.json(skillsObj)
 })
 
 
