@@ -25,7 +25,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const text = response.text();
-  console.log(text);
+  console.log(response.candidates[0].content);
 
 })
   app.listen(port, () => {
