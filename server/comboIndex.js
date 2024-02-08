@@ -8,7 +8,6 @@ const app = express()
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const port = 5001
-
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY });
 
@@ -28,10 +27,9 @@ app.post('/api/skills', async(req, res) => {
     // max_tokens: 1000,
     temperature: .2
   });
-  const skillsList =openAISkills.choices[0].message.content
-  console.log(skillsList)
-    // res.json(skillsList)
-    //   return skillsList
+  const oAISkillsList =openAISkills.choices[0].message.content
+
+
   const model = genAI.getGenerativeModel({ model: "gemini-pro"});
   const prompt =  `${resume} is either a job description or a resume. Identify each of the professional skills referenced in the string. 
       Extract skills in the text that represent the following categories: ${'product management'} skills, ${'technical skills'}, and ${'sales'} skills.
@@ -39,22 +37,26 @@ app.post('/api/skills', async(req, res) => {
  
   const geminiSkills = await model.generateContent(prompt);
   const response = await geminiSkills.response;
-  const text = response.text();
-  console.log(text); 
+  const geminiSkillsList = response.text();
+  const skillsListObj= {'oAISkillsList': oAISkillsList,
+			  			'geminiSkillsList': geminiSkillsList}
+  console.log(skillsListObj)
+    res.send()
+    //   return skillsList
 
 })
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
-async function main() {
-  const stream = await openai.chat.completions.create({
-    model: 'gpt-4',
-    messages: [{ role: 'user', content: 'Tell me a knock knockjoke' }],
-    stream: true,
-  });
-  for await (const chunk of stream) {
-    process.stdout.write(chunk.choices[0]?.delta?.content || '');
-  }
-}
+// async function main() {
+//   const stream = await openai.chat.completions.create({
+//     model: 'gpt-4',
+//     messages: [{ role: 'user', content: 'Tell me a knock knockjoke' }],
+//     stream: true,
+//   });
+//   for await (const chunk of stream) {
+//     process.stdout.write(chunk.choices[0]?.delta?.content || '');
+//   }
+// }
 
-// main();
+// // main();
