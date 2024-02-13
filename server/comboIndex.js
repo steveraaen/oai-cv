@@ -12,7 +12,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY });
 
 app.post('/api/skills', async(req, res) => {
-  const skillsObj = {}
+
   const resume = req.body.params[0].doc.resume
   // console.log(resume)
   const openAISkills = await openai.chat.completions.create({
@@ -21,8 +21,8 @@ app.post('/api/skills', async(req, res) => {
   messages: [
   {role: "system",content: "You are a helpful assistant designed to output JSON."},
   {role: 'user', content: `Read the following text """ ${resume}."""`},
-  {role: 'user', content: `Extract words in the text that represent product management skills, technical skills, and sales skills.`},
-  {role: 'user', content: `Format the list as a javascript array.`}
+  {role: 'user', content: `Extract 1 to 3 word phrases in the text that represent product management skills, technical skills, and sales skills.`},
+  {role: 'user', content: `Format the result as an object with keys representing the skill category, and the values listed in an array.`}
 ],
     // max_tokens: 1000,
     temperature: .2
@@ -33,16 +33,17 @@ app.post('/api/skills', async(req, res) => {
   const model = genAI.getGenerativeModel({ model: "gemini-pro"});
   const prompt =  `${resume} is either a job description or a resume. Identify each of the professional skills referenced in the string. 
       Extract skills in the text that represent the following categories: ${'product management'} skills, ${'technical skills'}, and ${'sales'} skills.
-      Describe each skill in three words or less. Return a Javascript object. The objects' keys will be the categories and the values will be a Javascript arrray of the skills`
+      Describe each skill in three words or less. The objects' keys will be the categories and the values will be an array of the skills. Return only the
+      object, without string literals.`
  
   const geminiSkills = await model.generateContent(prompt);
   const response = await geminiSkills.response;
+  console.log(response.text)
   const geminiSkillsList = response.text();
-  const skillsListObj= {'oAISkillsList': oAISkillsList,
-			  			'geminiSkillsList': geminiSkillsList}
-  console.log(skillsListObj)
-    res.send()
-    //   return skillsList
+  const skillsListBoth= [oAISkillsList,geminiSkillsList]
+
+  res.send(skillsListBoth)                  
+
 
 })
 app.listen(port, () => {
