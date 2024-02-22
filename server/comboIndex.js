@@ -1,4 +1,6 @@
 const express = require('express')
+const fs = require('fs');
+const path = require('path');
 const dotenv = require('dotenv')
 dotenv.config()
 const OpenAI = require("openai")
@@ -10,6 +12,27 @@ app.use(express.json());
 const port = 5001
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const openai = new OpenAI({apiKey: process.env.OPENAI_API_KEY });
+const reports= {
+  'endorsementGiven': 'Endorsement_Given_info.csv',
+  'endorsementReceived': 'Endorsement_Received_info.csv',
+  'connections' : 'Connections.csv',
+  'skills': 'Skills.csv'
+}
+app.post('/api/liReports', async(req,res) => {
+  console.log(req)
+  const filePath = await path.resolve(__dirname, `Basic_LinkedInDataExport_02-05-2024/${reports.endorsementGiven}`);
+  console.log(filePath)
+  const contents = fs.readFileSync(filePath,'utf8');
+  res.send(contents);
+})
+
+
+  // const liData= fs.readFileSync(`${__dirname}./Basic_LinkedInDataExport_02-05-2024/${reports.endorsementGiven}`, 'utf8') 
+  // console.log(liData)
+  // fs.readFile(`${__dirname}../Basic_LinkedInDataExport_02-05-2024/${reports.endorsementGiven}`, 'utf8', function (err, data) {
+ //     if (err) throw err;
+ //   console.log(data.length);
+  // });
 
 app.post('/api/skills', async(req, res) => {
 
@@ -28,17 +51,23 @@ app.post('/api/skills', async(req, res) => {
     temperature: .2
   });
   const oAISkillsList =openAISkills.choices[0].message.content
+  // console.log(oAISkillsList)
 
+  const generationConfig = {
+  temperature: 0.9,
+  // topP: 0.1,
+  // topK: 16,
+};
+  const model = genAI.getGenerativeModel({ model: "gemini-pro", generationConfig});
 
-  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
   const prompt =  `${resume} is either a job description or a resume. Identify each of the professional skills referenced in the string. 
       Extract skills in the text that represent the following categories: ${'product management'} skills, ${'technical skills'}, and ${'sales'} skills.
       Describe each skill in three words or less. The objects' keys will be the categories and the values will be an array of the skills. Return only the
-      object, without string literals.`
+      object, without string literals. Do not enclose the object in triple quotes`
  
   const geminiSkills = await model.generateContent(prompt);
   const response = await geminiSkills.response;
-  console.log(response.text)
+  console.log(response.text())
   const geminiSkillsList = response.text();
   const skillsListBoth= [oAISkillsList,geminiSkillsList]
 
