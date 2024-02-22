@@ -19,10 +19,11 @@ const reports= {
   'skills': 'Skills.csv'
 }
 app.post('/api/liReports', async(req,res) => {
-  console.log(req)
+  // console.log(req)
   const filePath = await path.resolve(__dirname, `Basic_LinkedInDataExport_02-05-2024/${reports.endorsementGiven}`);
-  console.log(filePath)
+  // console.log(filePath)
   const contents = fs.readFileSync(filePath,'utf8');
+  console.log(contents)
   res.send(contents);
 })
 
