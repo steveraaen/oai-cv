@@ -10,7 +10,7 @@ function Description(props) {
     const valueRef = useRef('') 
 
     const sendValue = () => {
-        props.setDesc(valueRef.current.value) 
+        props.processDesc(valueRef.current.value) 
     }
 
     return(

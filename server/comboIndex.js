@@ -2,6 +2,7 @@ const express = require('express')
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv')
+const { parse } = require("csv-parse/sync");
 dotenv.config()
 const OpenAI = require("openai")
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -18,15 +19,19 @@ const reports= {
   'connections' : 'Connections.csv',
   'skills': 'Skills.csv'
 }
+
 app.post('/api/liReports', async(req,res) => {
   // console.log(req)
-  const filePath = await path.resolve(__dirname, `Basic_LinkedInDataExport_02-05-2024/${reports.endorsementGiven}`);
+  const filePath = await path.resolve(__dirname, `Basic_LinkedInDataExport_02-05-2024/${reports.connections}`);
   // console.log(filePath)
   const contents = fs.readFileSync(filePath,'utf8');
-  console.log(contents)
-  res.send(contents);
+  const records = parse(contents, {
+  columns: true,
+  skip_empty_lines: true
+});
+  console.log(records)
+  res.send(records);
 })
-
 
   // const liData= fs.readFileSync(`${__dirname}./Basic_LinkedInDataExport_02-05-2024/${reports.endorsementGiven}`, 'utf8') 
   // console.log(liData)
@@ -36,9 +41,8 @@ app.post('/api/liReports', async(req,res) => {
   // });
 
 app.post('/api/skills', async(req, res) => {
-
+  const rtnFormat = '[{}]' 
   const resume = req.body.params[0].doc.resume
-  // console.log(resume)
   const openAISkills = await openai.chat.completions.create({
   model: "gpt-3.5-turbo-1106",
   response_format: { type: "json_object" },
@@ -46,14 +50,13 @@ app.post('/api/skills', async(req, res) => {
   {role: "system",content: "You are a helpful assistant designed to output JSON."},
   {role: 'user', content: `Read the following text """ ${resume}."""`},
   {role: 'user', content: `Extract 1 to 3 word phrases in the text that represent product management skills, technical skills, and sales skills.`},
-  {role: 'user', content: `Format the result as an object with keys representing the skill category, and the values listed in an array.`}
+  {role: 'user', content: `Format the result as an array of objects with keys representing the skill category, and the values listed in an array. The name of the array should be "allSkils".`}
 ],
     // max_tokens: 1000,
     temperature: .2
   });
   const oAISkillsList =openAISkills.choices[0].message.content
   // console.log(oAISkillsList)
-
   const generationConfig = {
   temperature: 0.9,
   // topP: 0.1,
@@ -63,7 +66,7 @@ app.post('/api/skills', async(req, res) => {
 
   const prompt =  `${resume} is either a job description or a resume. Identify each of the professional skills referenced in the string. 
       Extract skills in the text that represent the following categories: ${'product management'} skills, ${'technical skills'}, and ${'sales'} skills.
-      Describe each skill in three words or less. The objects' keys will be the categories and the values will be an array of the skills. Return only the
+      Describe each skill in three words or less. Format the result as an array of objects. The objects' keys will be the categories and the values will be an array of the skills. Return only the
       object, without string literals. Do not enclose the object in triple quotes`
  
   const geminiSkills = await model.generateContent(prompt);

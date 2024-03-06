@@ -12,7 +12,11 @@ import Uploader from './components/Uploader';
 import Description from './components/Description';
 import Selectors from './components/Selectors';
 import CoverLetter from './components/CoverLetter';
+import DescSkillsButton from './components/DescSkillsButton';
+import ResumeSkillsButton from './components/ResumeSkillsButton';
+import ResumeSkills from './components/ResSkills';
 import SaveDocx from './components/SaveDocx';
+import ParseLinkedIn from './components/ParseCSV';
 import helperFuncs from './helpers/apiRoutes';
 import inputs from './helpers/exampleStrings';
 
@@ -22,28 +26,68 @@ function App() {
   const [tone, setTone] = useState('Normal')
   const [focus, setFocus] = useState('Product')
   const [aggression, setAggression] = useState('Normal')
-  const [resumeSkills, setResumeSkills] = useState([])
+  const [resumeSkills, setResumeSkills] = useState({'gemini': [],
+                                                    'oai': []})
+  const [descriptionSkills, setDescriptionSkills] = useState({'gemini': [],
+                                                    'oai': []})
   const [coverLetter, setCoverLetter] = useState([])
   const [prompt, setPrompt] = useState({'resume': '',
                                         'desc': desc,
                                         'tone': 'Normal',
                                         'focus': 'Product Management',
                                         'aggression': 'Normal'})
-async function getResumeSkills () {
-    try {
-      const skillsPromise = axios.post('/api/blurb', {params:[{resume}]})
-      // const skills = await skillsPromise
+  const [liData, setLiData] = useState([])
 
-      console.log(await skillsPromise)
-      setResumeSkills(skills.data[0].message)
+
+  async function handleLinkedIn(rpt) {
+
+    try {
+      console.log(rpt)
+      const liPromise = await axios.post('/api/liReports', {params:{rpt}})
+      const lDat = liPromise
+      console.log(lDat.data)
+      setLiData(lDat.data)
+    }         
+    catch (e) {
+          console.error(e);
       }
+  }
+async function getSkills (doc) {
+  console.log(doc)
+    try {
+      const skillsPromise = await axios.post('/api/skills', {params:[{doc}]})     
+      const skills = skillsPromise
+      // const oAISkillsList = skills.data[0]
+      // const geminiSkillsList = skills.data[1]
+
+      // console.log(skills.data)
+      // console.log(skills.data[1])
+
+
+      // const skillList =skills.data.skills
+      // for (let i = 0; i < skillList.length; i++) {
+      //   for(let j=0; j < skillList[i].length; j++) {
+      //     console.log(skillList[i][j])
+      //   }
+      // }
+
+      if(doc.resume){
+      setResumeSkills({'gemini':skills.data[1],
+                            'oai': skills.data[0]})
+    } else if(doc.desc) {
+      setDescSkills({'gemini':skills.data[1],
+                            'oai': skills.data[0]})     
+      }
+    }
          catch (e) {
         console.error(e);
-    };
+    
+    }; 
 }
-function processDesc(e){
-  console.log(e)
-  setDesc(e)
+
+async function processDesc(ev){
+  await setDesc(ev)
+
 }
 async function writeCoverLetter(obj) {
   try {
@@ -76,19 +120,23 @@ const Item = styled(Card)(({ theme }) => ({
           <Selectors prompt= {prompt} setPrompt= {setPrompt}  />
         </Item>
         <Item>
-          <CoverLetter coverLetter= {coverLetter} />
+
         </Item>
       </Grid>
       <Grid xs={6}>
         <Item> 
         <RunButton writeLetter= {writeLetter} desc={desc} resume={resume}/>
+        <DescSkillsButton getSkills= {getSkills} desc={desc} />
+        <ResumeSkillsButton getSkills= {getSkills} resume={resume}/>
+        <ResumeSkills resumeSkills= {resumeSkills}/>
         </Item>
         
       </Grid>
       <Grid xs={6}>
-        <Item> <Description processDesc ={processDesc} desc={desc} setDesc={processDesc} /></Item>
+        <Item> <Description processDesc ={processDesc} desc={desc}  /></Item>
         <Item> <SaveDocx coverLetter= {coverLetter} desc={desc} resume={resume}/></Item>
       </Grid>
+      <ParseLinkedIn handleLinkedIn= {handleLinkedIn} liData= {liData}/>
     </Grid>   
     </>
   )
